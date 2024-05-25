@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -26,7 +27,7 @@ class UserController extends Controller
         }
 
         // Lấy tất cả dữ liệu từ bảng users
-        $users = User::paginate(4);
+        $users = User::paginate(5);
 
         return view('apps.users.user', compact('users'))->with('title', $this->title);
     }
@@ -53,64 +54,122 @@ class UserController extends Controller
     public function postadduser(Request $request)
     {
 
-
-        // Validate dữ liệu đầu vào
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'gender' => 'required|integer',
-        ]);
-
         $name = $request->input('name');
         $username = $request->input('username');
+        $email = $request->input('email');
         $password = $request->input('password');
         $r_password = $request->input('r_password');
-        $email = $request->input('email');
         $phone_number = $request->input('phone_number');
         $address = $request->input('address');
         $gender = $request->input('gender');
         $image = $request->input('image');
         $role = $request->input('role');
 
-        // Thêm logic xử lý (ví dụ: lưu vào cơ sở dữ liệu)
-        if ($password === $r_password) {
-            $user = new User();
-            $user->name = $name;
-            $user->username = $username;
-            $user->email = $email;
-            $user->password = bcrypt($password);
-            $user->r_password = $r_password;
-            $user->gender = $gender;
-            $user->address = $address;
-            $user->image = $image;
-            $user->role = $role;
-            $user->$user->save();
+        // Validate dữ liệu đầu vào
+        // $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'username' => 'required|string|max:255',
+        //     'email' => 'required|string|email|max:255|unique:users',
+        //     'password' => 'required|string|min:8|confirmed',
+        //     'r_password' => 'required|string|min:8|confirmed',
+        //     'gender' => 'required|integer',
+        //     'phone_number' => 'required|string|max:50',
+        //     'address' => 'required|string|max:255',
+        //     'image' => 'nullable|string|max:255',
+        //     'role' => 'required|integer',
+        // ]);
+        $password = Hash::make($password);
 
-            return redirect()->route('user')->with('success', 'Người dùng đã được thêm thành công.');
-        } else {
-            return redirect()->back()->withErrors('Mật khẩu không khớp.');
+        // Tạo mới user
+        $user = new User();
+        $user->name = $name;
+        $user->username = $username;
+        $user->email = $email;
+        $user->password = $password; // Mật khẩu đã được mã hóa
+        $user->phone_number = $phone_number;
+        $user->address = $address;
+        $user->gender = $gender;
+        $user->image = $image;
+        $user->role = $role;
+
+        // Lưu vào cơ sở dữ liệu
+        $user->save();
+        return redirect()->route('user')->with('success', 'Người dùng đã được thêm thành công.');
+    }
+
+    public function edituser($id)
+    {
+        $this->title = 'Sửa thông tin';
+
+        // Truy vấn cơ sở dữ liệu để lấy thông tin của người dùng dựa trên ID
+        $user = User::find($id);
+
+        // Kiểm tra xem người dùng có tồn tại không
+        if (!$user) {
+            abort(404); // Nếu không tồn tại, hiển thị trang 404
         }
 
-        // Xử lý logic với giá trị của gender
-        // Ví dụ: lưu vào cơ sở dữ liệu, hiển thị giá trị, v.v.
+        // Truyền thông tin của người dùng tới view để hiển thị
+        return view('apps.users.edituser', ['user' => $user])->with('title', $this->title);
     }
 
-    public function edituser()
+    public function postedituser(Request $request, $id)
     {
-        // return view('apps.edituser');
-        return "edit";
+        // Xử lý các thay đổi của người dùng tại đây, ví dụ:
+        $user = User::findOrFail($id);
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        // Cập nhật các trường khác tương tự
+
+        // Lưu thay đổi vào cơ sở dữ liệu
+        $user->save();
+
+        // Sau khi cập nhật, chuyển hướng người dùng đến trang hiển thị thông tin người dùng
+        return redirect()->route('user')->with('success', 'Cập nhật thông tin người dùng thành công');
     }
 
-    public function showuser()
+    public function showuser($id)
     {
-        // return view('apps.showuser');
-        return "show";
+
+        $this->title = 'Xem thông tin';
+
+        // Truy vấn cơ sở dữ liệu để lấy thông tin của người dùng dựa trên ID
+        $user = User::find($id);
+
+        // Kiểm tra xem người dùng có tồn tại không
+        if (!$user) {
+            abort(404); // Nếu không tồn tại, hiển thị trang 404
+        }
+
+        // Truyền thông tin của người dùng tới view để hiển thị
+        return view('apps.users.showuser', ['user' => $user])->with('title', $this->title);
     }
-    public function deluser()
+    public function deluser($id)
     {
-        // return view('apps.adduser');
-        return "delete";
+        $this->title = 'Xóa thông tin';
+
+        // Truy vấn cơ sở dữ liệu để lấy thông tin của người dùng dựa trên ID
+        $user = User::find($id);
+
+        // Kiểm tra xem người dùng có tồn tại không
+        if (!$user) {
+            abort(404); // Nếu không tồn tại, hiển thị trang 404
+        }
+
+        // Truyền thông tin của người dùng tới view để hiển thị
+        return view('apps.users.deluser', ['user' => $user])->with('title', $this->title);
+    }
+    public function postdeluser($id)
+    {
+        // Tìm người dùng theo ID
+        $user = User::find($id);
+
+        if ($user) {
+            // Xóa người dùng
+            $user->delete();
+            return redirect()->route('user')->with('success', 'Người dùng đã được xóa thành công.');
+        } else {
+            return redirect()->route('user')->with('error', 'Người dùng không tồn tại.');
+        }
     }
 }

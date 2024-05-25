@@ -15,13 +15,17 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('username');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('email');
             $table->string('password');
-            $table->string('r_password');
-            $table->rememberToken();
+            $table->string('r_password')->nullable(); // Cho phép giá trị null
+            $table->string('phone_number')->nullable();
+            $table->string('address')->nullable();
+            $table->enum('gender', ['0', '1', '2']);
+            $table->string('image')->nullable();
+            $table->enum('role', ['1', '2', '3', '4', '5']);
             $table->timestamps();
         });
+        
     }
 
     /**

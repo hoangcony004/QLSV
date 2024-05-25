@@ -83,46 +83,46 @@
                     <li class="breadcrumb-item active">Products</li>
                 </ol>
             </div>
-            <h4 class="page-title">Thêm người dùng</h4>
+            <h4 class="page-title">Xem Thông Tin Người Dùng</h4>
         </div>
     </div>
 </div>
 <!-- end page title -->
 <div class="row">
-    <form action="{{ route('postadduser') }}" method="post">
-        @csrf
+    <form action="#" method="post">
+
         <div class="row">
             <div class="col-6">
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" name="name" value="{{ old('name') }}" id="floatingInput" placeholder="name@example.com" />
+                    <input type="text" class="form-control" name="name" value="{{ $user->name }}" disabled id="floatingInput" placeholder="name@example.com" />
                     <label for="floatingInput">Họ và Tên</label>
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" name="username" value="{{ old('username') }}" id="floatingInput" placeholder="name@example.com" />
+                    <input type="text" class="form-control" name="username" value="{{ $user->username }}" disabled id="floatingInput" placeholder="name@example.com" />
                     <label for="floatingInput">Tên Đăng Nhập</label>
                 </div>
 
-                <div class="form-floating mb-3">
-                    <input type="password" class="form-control" name="password" id="floatingInput" placeholder="name@example.com" />
+                <!-- <div class="form-floating mb-3">
+                    <input type="password" class="form-control" name="password" value="{{ $user->username }}" disabled id="floatingInput" placeholder="name@example.com" />
                     <label for="floatingInput">Mật Khẩu</label>
                 </div>
 
                 <div class="form-floating">
-                    <input type="password" class="form-control" name="r_password" id="floatingPassword" placeholder="Password" />
+                    <input type="password" class="form-control" name="r_password" id="floatingPassword" disabled placeholder="Password" />
                     <label for="floatingPassword">Nhập Lại Mật khẩu</label>
-                </div> <br>
+                </div> -->
 
                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" name="email" id="floatingInput" placeholder="name@example.com" />
+                    <input type="email" class="form-control" name="email" id="floatingInput" disabled value="{{ $user->email }}" placeholder="name@example.com" />
                     <label for="floatingInput">Email</label>
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input type="number" class="form-control" name="phone_number" id="floatingInput" placeholder="name@example.com" />
+                    <input type="number" class="form-control" name="phone_number" id="floatingInput" disabled value="{{ $user->phone_number }}" placeholder="name@example.com" />
                     <label for="floatingInput">Số điện thoại</label>
                 </div>
-                <button type="submit" class="btn btn-primary">Thêm mới</button>
+                <a href="{{ route('user') }}" class="btn btn-success"><i class="dripicons-arrow-thin-left"></i>  Quay Lại</a>
 
                 <!-- <div class="form-floating">
                     <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px;"></textarea>
@@ -132,19 +132,19 @@
             </div>
             <div class="col-6">
                 <div class="form-floating">
-                    <select class="form-select" id="floatingSelect" name="gender" aria-label="Floating label select example">
+                    <select class="form-select" id="floatingSelect" name="gender" disabled value="{{ $user->gender }}" aria-label="Floating label select example">
                         <option selected>Giới Tính</option>
                         <option value="1">Nam</option>
                         <option value="0">Nữ</option>
                         <option value="2">Bê Đê</option>
-                        
+
                     </select>
                     <label for="floatingSelect">Chọn Giới Tính</label>
                 </div><br>
 
                 <div class="form-floating">
-                    <select class="form-select" id="floatingSelect" name="address" aria-label="Floating label select example">
-                        <option selected>Vui Lòng Chọn</option>
+                    <select class="form-select" id="floatingSelect" name="address" disabled value="" aria-label="Floating label select example">
+                        <option selected>{{ $user->address }}</option>
                         <option value="Hà Nội">Hà Nội</option>
                         <option value="TP.HCM">TP.HCM</option>
                         <option value="Đà Nẵng">Đà Nẵng</option>
@@ -155,15 +155,35 @@
                 <div class="row g-2">
                     <div class="col-md">
                         <div class="form-floating">
-                            <input type="text" class="form-control" name="image" id="floatingInputGrid" placeholder="name@example.com" />
+                            <input type="text" class="form-control" name="image" disabled value="{{ $user->image }}" id="floatingInputGrid" placeholder="name@example.com" />
                             <label for="floatingInputGrid">Link Ảnh Đại Diện</label>
                         </div>
-                        <a href="https://postimg.cc/files">Cách lấy link.</a>
+                        <!-- <a href="https://postimg.cc/files">Cách lấy link.</a> -->
                     </div>
                     <div class="col-md">
                         <div class="form-floating">
-                            <select class="form-select" id="floatingSelectGrid" name="role" aria-label="Floating label select example">
-                                <option selected>Chọn Chức Vụ</option>
+                            <select class="form-select" id="floatingSelectGrid" disabled name="role" value="" aria-label="Floating label select example">
+                                <option selected>
+                                    @switch($user->role)
+                                    @case(1)
+                                    <span class="badge bg-primary">Admin1</span>
+                                    @break
+                                    @case(2)
+                                    <span class="badge bg-secondary">Admin2</span>
+                                    @break
+                                    @case(3)
+                                    <span class="badge bg-success">Admin3</span>
+                                    @break
+                                    @case(4)
+                                    <span class="badge bg-danger">Admin4</span>
+                                    @break
+                                    @case(5)
+                                    <span class="badge bg-warning">User</span>
+                                    @break
+                                    @default
+                                    <span class="badge bg-info">Không có quyền</span>
+                                    @endswitch
+                                </option>
                                 <option value="1">Admin</option>
                                 <option value="2">Quản Lý</option>
                                 <option value="3">Giảng Viên</option>

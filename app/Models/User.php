@@ -58,21 +58,21 @@ class User extends Authenticatable
 
     // app/Models/User.php
 
-    public function getRoleTextAttribute()
-    {
-        switch ($this->role) {
-            case 1:
-                return 'Admin';
-            case 2:
-                return 'Admin1';
-            case 3:
-                return 'Admin2';
-            case 4:
-                return 'Admin3';
-            case 5:
-                return 'User';
-            default:
-                return 'Không Có Quyền';
-        }
-    }
+    // public function getRoleTextAttribute()
+    // {
+    //     switch ($this->role) {
+    //         case 1:
+    //             return 'Admin';
+    //         case 2:
+    //             return 'Admin1';
+    //         case 3:
+    //             return 'Admin2';
+    //         case 4:
+    //             return 'Admin3';
+    //         case 5:
+    //             return 'User';
+    //         default:
+    //             return 'Không Có Quyền';
+    //     }
+    // }
 }

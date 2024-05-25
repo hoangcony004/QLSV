@@ -42,10 +42,16 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::group(['prefix' => 'user'], function () {
             Route::get('/add-user', [UserController::class, 'adduser'])->name('adduser');
-            Route::post('add-user', [UserController::class, 'postadduser'])->name('user.adduser');
-            Route::get('/show-user', [UserController::class, 'showuser'])->name('showuser');
-            Route::get('/edit-user', [UserController::class, 'edituser'])->name('edituser');
-            Route::get('/del-user', [UserController::class, 'deluser'])->name('deluser');
+            Route::post('add-user', [UserController::class, 'postadduser'])->name('postadduser');
+
+            Route::get('/show-user/id={id}', [UserController::class, 'showuser'])->name('showuser');
+
+            Route::get('/edit-user/id={id}', [UserController::class, 'edituser'])->name('edituser');
+            Route::post('edit-user/id={id}', [UserController::class, 'postedituser'])->name('postedituser');
+
+            // Route::delete('/del-user/{id}', [UserController::class, 'deluser'])->name('deluser');
+            Route::get('/del-user/id={id}', [UserController::class, 'deluser'])->name('deluser');
+            Route::delete('del-user/id={id}', [UserController::class, 'postdeluser'])->name('postdeluser');
         });
     
     

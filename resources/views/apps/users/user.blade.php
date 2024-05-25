@@ -4,20 +4,20 @@
 <!-- LOGO -->
 <a href="" class="logo text-center logo-light">
     <span class="logo-lg">
-        <img src="{{ asset('clients/assets/images/logo.png') }}" alt="" height="16">
+        <img src="{{ asset('assets/images/logo.png') }}" alt="" height="16">
     </span>
     <span class="logo-sm">
-        <img src="{{ asset('clients/assets/images/logo_sm.png') }}" alt="" height="16">
+        <img src="{{ asset('assets/images/logo_sm.png') }}" alt="" height="16">
     </span>
 </a>
 
 <!-- LOGO -->
 <a href="index.html" class="logo text-center logo-dark">
     <span class="logo-lg">
-        <img src="{{ asset('clients/assets/images/logo-dark.png') }}" alt="" height="16">
+        <img src="{{ asset('assets/images/logo-dark.png') }}" alt="" height="16">
     </span>
     <span class="logo-sm">
-        <img src="{{ asset('clients/assets/images/logo_sm_dark.png') }}" alt="" height="16">
+        <img src="{{ asset('assets/images/logo_sm_dark.png') }}" alt="" height="16">
     </span>
 </a>
 
@@ -89,6 +89,12 @@
             <h4 class="page-title">Người dùng</h4>
         </div>
     </div>
+    <!-- Thông báo lỗi -->
+    @if(session()->has('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
 </div>
 <!-- end page title -->
 
@@ -110,6 +116,8 @@
                                 <select name="criteria" class="mb-2 me-1">
                                     <option value="id">ID</option>
                                     <option value="name">Họ và Tên</option>
+                                    <option value="email">Email</option>
+                                    <option value="phone_number">Số điện thoại</option>
                                     <!-- <option value="class">Lớp</option> -->
                                 </select>
                                 <input type="search" name="query" placeholder="Tìm kiếm người dùng..." style="outline: none;">
@@ -133,8 +141,11 @@
                                 <th class="all">Ảnh Đại Diện</th>
                                 <th>Họ Và Tên</th>
                                 <th>Tên Đăng Nhập</th>
+                                <th>Email</th>
+                                <th>Số Điện Thoại</th>
+                                <!-- <th>Giới Tính</th> -->
                                 <th>Chức Vụ</th>
-                                <th>Địa Chỉ</th>
+                                <!-- <th>Địa Chỉ</th> -->
                                 <th>Ngày Thêm</th>
                                 <th style="width: 85px;">Action</th>
                             </tr>
@@ -155,36 +166,72 @@
                                 <td>
                                     <p class="m-0 d-inline-block align-middle font-16">
                                         <a href="apps-ecommerce-products-details.html" class="text-body">{{$user->name}}</a>
-                                        <br>
+                                        <!-- <br>
                                         <span class="text-warning mdi mdi-star"></span>
                                         <span class="text-warning mdi mdi-star"></span>
                                         <span class="text-warning mdi mdi-star"></span>
                                         <span class="text-warning mdi mdi-star"></span>
-                                        <span class="text-warning mdi mdi-star"></span>
+                                        <span class="text-warning mdi mdi-star"></span> -->
                                     </p>
                                 </td>
-                                <td>
-                                    {{$user->username}}
-                                </td>
-                                <td>
-                                    {{ $user->role_text }}
-                                </td>
+                                <td>{{$user->username}}</td>
+                                <td>{{$user->email}}</td>
+                                <td>{{$user->phone_number}}</td>
+                                <!-- <td>
+                                    @switch($user->gender)
+                                    @case(1)
+                                    <span class="badge bg-primary">Nam</span>
+                                    @break
+                                    @case(0)
+                                    <span class="badge bg-secondary">Nữ</span>
+                                    @break
+                                    @case(2)
+                                    <span class="badge bg-success">Bê Đê</span>
+                                    @break
+
+                                    @default
+                                    <span class="badge bg-info">Không Có Giới Tính</span>
+                                    @endswitch
+                                </td> -->
 
                                 <td>
+                                    @switch($user->role)
+                                    @case(1)
+                                    <span class="badge bg-primary">Admin1</span>
+                                    @break
+                                    @case(2)
+                                    <span class="badge bg-secondary">Admin2</span>
+                                    @break
+                                    @case(3)
+                                    <span class="badge bg-success">Admin3</span>
+                                    @break
+                                    @case(4)
+                                    <span class="badge bg-danger">Admin4</span>
+                                    @break
+                                    @case(5)
+                                    <span class="badge bg-warning">User</span>
+                                    @break
+                                    @default
+                                    <span class="badge bg-info">Không có quyền</span>
+                                    @endswitch
+                                </td>
+
+
+                                <!-- <td>
                                     {{$user->address}}
-                                </td>
+                                </td> -->
 
                                 <td>
-                                    {{$user->created_at}}
+                                    {{ \Carbon\Carbon::parse($user->created_at)->format('d/m/Y') }}
                                 </td>
                                 <!-- <td>
                                     <span class="badge bg-success">Active</span>
                                 </td> -->
 
                                 <td class="table-action">
-                                    <a href="{{route('showuser')}}" class="action-icon"> <i class="mdi mdi-eye"></i></a>
-                                    <a href="{{route('edituser')}}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
-                                    <a href="{{route('deluser')}}" class="action-icon"> <i class="mdi mdi-delete"></i></a>
+                                    <a href="{{ route('showuser', ['id' => $user->id]) }}" class="action-icon"> <i class="mdi mdi-eye"></i></a>
+                                    <a href="{{route('edituser', ['id' => $user->id]) }}" class="action-icon"> <i class="mdi mdi-square-edit-outline"></i></a>
+                                    <a href="{{route('deluser', ['id' => $user->id]) }}" class="action-icon"> <i class="mdi mdi-delete"></i></a>
                                 </td>
                             </tr>
                             @endforeach
