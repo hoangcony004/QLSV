@@ -48,7 +48,11 @@ class UserController extends Controller
     public function adduser()
     {
         $this->title = 'Thêm Người Dùng Mới';
-        return view('apps.users.adduser')->with('title', $this->title);
+
+
+        
+        $provinces = config('provinces');
+        return view('apps.users.adduser', compact('provinces'))->with('title', $this->title);
     }
 
     public function postadduser(Request $request)
@@ -103,6 +107,7 @@ class UserController extends Controller
 
         // Truy vấn cơ sở dữ liệu để lấy thông tin của người dùng dựa trên ID
         $user = User::find($id);
+        $provinces = config('provinces');
 
         // Kiểm tra xem người dùng có tồn tại không
         if (!$user) {
@@ -110,7 +115,7 @@ class UserController extends Controller
         }
 
         // Truyền thông tin của người dùng tới view để hiển thị
-        return view('apps.users.edituser', ['user' => $user])->with('title', $this->title);
+        return view('apps.users.edituser', ['user' => $user], compact('user', 'provinces'))->with('title', $this->title);
     }
 
     public function postedituser(Request $request, $id)

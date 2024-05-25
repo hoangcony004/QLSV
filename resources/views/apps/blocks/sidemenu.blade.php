@@ -21,7 +21,7 @@
             </a>
         </li> -->
     @php
-        $user = Auth::user();
+    $user = Auth::user();
     @endphp
 
     <li class="side-nav-item">
@@ -60,6 +60,33 @@
             </ul>
         </div>
         @endif
+    </li>
+
+    <li class="side-nav-item">
+        <a data-bs-toggle="collapse" href="#sidebarProjects" aria-expanded="false" aria-controls="sidebarProjects" class="side-nav-link">
+            <i class="mdi mdi-plus-circle me-2"></i>
+            <span> Thêm Mới </span>
+            <span class="menu-arrow"></span>
+        </a>
+        <div class="collapse" id="sidebarProjects">
+            <ul class="side-nav-second-level">
+                <li>
+                    <a href="{{ route('adduser') }}">Thêm Người Dùng Mới</a>
+                </li>
+                <li>
+                    <a href="#">Thêm Cài Đặt</a>
+                </li>
+                <li>
+                    <a href="#">Thêm Liên Hệ</a>
+                </li>
+                <li>
+                    <a href="#">Thêm Nhân Viên<span class="badge rounded-pill badge-light-lighten font-10 float-end">New</span></a>
+                </li>
+                <li>
+                    <a href="#">Thêm Phản Hồi<span class="badge rounded-pill badge-success-lighten font-10 float-end">New</span></a>
+                </li>
+            </ul>
+        </div>
     </li>
 
     <li class="side-nav-item">

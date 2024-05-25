@@ -4,6 +4,9 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Http\Response;
+
 
 class Handler extends ExceptionHandler
 {
@@ -27,4 +30,30 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof \Symfony\Component\HttpKernel\Exception\HttpException) {
+            $statusCode = $exception->getStatusCode();
+        } else {
+            // Xử lý các loại lỗi khác
+            $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR; // Mã trạng thái 500
+        }
+    
+        if ($statusCode == 404) {
+            Session::put('previous_url', url()->previous());
+            // Xử lý lỗi 404
+            return response()->view('apps.errors.404', [], 404);
+        } elseif ($statusCode == 500) {
+            Session::put('previous_url', url()->previous());
+            // Xử lý lỗi 500
+            return response()->view('apps.errors.500', [], 500);
+        } else {
+            Session::put('previous_url', url()->previous());
+            // Xử lý các loại lỗi HTTP khác
+            return response()->view('apps.errors.general', [], $statusCode);
+        }
+    }
+    
+    
 }

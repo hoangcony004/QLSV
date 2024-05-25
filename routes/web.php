@@ -5,7 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use  App\Http\Controllers\ErrorController;
 use  App\Http\Controllers\UserController;
-
+use App\Http\Controllers\SearchController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,11 +16,13 @@ use  App\Http\Controllers\UserController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/error', [ErrorController::class, 'error'])->name('error');
-Route::get('/error404', [ErrorController::class, 'error404'])->name('error404');
-Route::get('/error500', [ErrorController::class, 'error500'])->name('error500');
+
+
+
+Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 Route::get('/login', [AuthController::class, 'getLogin'])->name('login');
+// Route::get('/login', [AuthController::class, 'getLogin']);
 
 Route::post('/login', [AuthController::class, 'postLogin']);
 
