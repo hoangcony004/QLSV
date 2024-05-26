@@ -3,9 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
-use  App\Http\Controllers\ErrorController;
 use  App\Http\Controllers\UserController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\ClassController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,6 +44,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/user', [UserController::class, 'user'])->name('user');
         Route::get('/user/search', [UserController::class, 'searchuser'])->name('users.search');
 
+        Route::get('/class', [ClassController::class, 'index'])->name('class');
+        Route::get('/class/search', [ClassController::class, 'searchclass'])->name('class.search');
+
         Route::group(['prefix' => 'user'], function () {
             Route::get('/add-user', [UserController::class, 'adduser'])->name('adduser');
             Route::post('add-user', [UserController::class, 'postadduser'])->name('postadduser');
@@ -56,6 +61,13 @@ Route::group(['middleware' => ['auth']], function () {
             Route::delete('del-user/id={id}', [UserController::class, 'postdeluser'])->name('postdeluser');
         });
     
+        Route::group(['prefix' => 'class'], function () {
+            Route::get('/add-class', [ClassController::class, 'addclass'])->name('addclass');
+            Route::post('/add-class', [ClassController::class, 'postaddclass'])->name('postaddclass');
+
+            Route::get('/del-class/id={id}', [ClassController::class, 'delclass'])->name('delclass');
+            Route::post('/del-class/id={id}', [ClassController::class, 'postdelclass'])->name('postdelclass');
+        });
     
         // Các route khác trong nhóm "apps"...
     });

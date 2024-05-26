@@ -34,10 +34,10 @@
         <div class="collapse" id="sidebarEcommerce">
             <ul class="side-nav-second-level">
                 <li>
-                    <a href="{{ route('user') }}">Người dùng</a>
+                    <a href="{{ route('user') }}">Người Dùng</a>
                 </li>
                 <li>
-                    <a href="apps-ecommerce-products-details.html">Products Details</a>
+                    <a href="{{ route('class') }}">Lớp Học</a>
                 </li>
                 <li>
                     <a href="apps-ecommerce-orders.html">Orders</a>
