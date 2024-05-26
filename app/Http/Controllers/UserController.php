@@ -42,15 +42,25 @@ class UserController extends Controller
 
         $users = User::where($criteria, 'LIKE', '%' . $query . '%')->paginate(5);
 
-        return view('apps.users.user', compact('users'))->with('title', $this->title);
+        if ($users->isEmpty()) {
+            // session()->flash('danger', 'Không tìm thấy kết quả nào.');
+            return redirect()->route('user')
+                ->with([
+                    'title' => $this->title,
+                    'danger' => 'Không tìm thấy kết quả nào.'
+                ]);
+        } else {
+            session()->flash('success', 'Đã tìm thấy thành công.');
+            return view('apps.users.user', compact('users'))
+                ->with('title', $this->title);
+        }
     }
 
     public function adduser()
     {
         $this->title = 'Thêm Người Dùng Mới';
 
-
-        
+        // lấy tỉnh thành việt nam
         $provinces = config('provinces');
         return view('apps.users.adduser', compact('provinces'))->with('title', $this->title);
     }
@@ -90,6 +100,7 @@ class UserController extends Controller
         $user->username = $username;
         $user->email = $email;
         $user->password = $password; // Mật khẩu đã được mã hóa
+        $user->r_password = $r_password;
         $user->phone_number = $phone_number;
         $user->address = $address;
         $user->gender = $gender;
@@ -123,7 +134,13 @@ class UserController extends Controller
         // Xử lý các thay đổi của người dùng tại đây, ví dụ:
         $user = User::findOrFail($id);
         $user->name = $request->input('name');
-        $user->email = $request->input('email');
+        $user->username = $request->input('username');
+        // $user->email = $request->input('email');
+        // $user->phone_number = $request->input('phone_number');
+        // $user->address = $request->input('address');
+        // $user->gender = $request->input('gender');
+        // $user->image = $request->input('image');
+        // $user->role = $request->input('role');
         // Cập nhật các trường khác tương tự
 
         // Lưu thay đổi vào cơ sở dữ liệu

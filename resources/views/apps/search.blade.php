@@ -34,9 +34,10 @@
         <li><a href="{{ $link }}">{{ $name }}</a></li>
         @endforeach
     </ul>
-
     @else
-    <p>Không tìm thấy chức năng nào khớp với từ khóa.</p>
+    <!-- <p>Không tìm thấy chức năng nào khớp với từ khóa.</p> -->
+    <br><br>
+    <h3 style="color: red;">Không tìm thấy chức năng nào khớp với từ khóa.</h3>
     @endif
 </div>
 @endsection

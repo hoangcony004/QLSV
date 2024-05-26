@@ -89,7 +89,6 @@
                 <div class="form-floating">
                     <select class="form-select" id="floatingSelect" name="gender" value="{{ $user->gender }}" aria-label="Floating label select example">
                         <option selected>
-                        <option selected>
                             @switch($user->gender)
                             @case(1)
                             <span class="badge bg-primary">Nam</span>
@@ -104,7 +103,6 @@
                             @default
                             <span class="badge bg-info">Không Có Giới Tính</span>
                             @endswitch
-                        </option>
                         </option>
                         <option value="1">Nam</option>
                         <option value="0">Nữ</option>
@@ -139,26 +137,26 @@
                     </div>
                     <div class="col-md">
                         <div class="form-floating">
-                            <select class="form-select" id="floatingSelectGrid" name="role" value="" aria-label="Floating label select example">
+                            <select class="form-select" id="floatingSelectGrid" name="role" aria-label="Floating label select example">
                                 <option selected>
                                     @switch($user->role)
                                     @case(1)
-                                    <span class="badge bg-primary">Admin</span>
+                                        Admin
                                     @break
                                     @case(2)
-                                    <span class="badge bg-secondary">Quản Lý</span>
+                                        Quản Lý
                                     @break
                                     @case(3)
-                                    <span class="badge bg-success">Giảng Viên</span>
+                                        Giảng Viên
                                     @break
                                     @case(4)
-                                    <span class="badge bg-danger">Cán Bộ Lớp</span>
+                                        Cán Bộ Lớp
                                     @break
                                     @case(5)
-                                    <span class="badge bg-warning">Sinh Viên</span>
+                                        Sinh Viên
                                     @break
                                     @default
-                                    <span class="badge bg-info">Không có quyền</span>
+                                        Không có quyền
                                     @endswitch
                                 </option>
                                 <option value="1">Admin</option>

@@ -132,34 +132,35 @@
                     </div>
                     <div class="col-md">
                         <div class="form-floating">
-                            <select class="form-select" id="floatingSelectGrid" disabled name="role" value="" aria-label="Floating label select example">
+                            <select class="form-select" id="floatingSelectGrid" disabled name="role" aria-label="Floating label select example">
                                 <option selected>
                                     @switch($user->role)
                                     @case(1)
-                                    <span class="badge bg-primary">Admin1</span>
+                                    <span class="badge bg-primary">Admin</span>
                                     @break
                                     @case(2)
-                                    <span class="badge bg-secondary">Admin2</span>
+                                    <span class="badge bg-secondary">Quản Lý</span>
                                     @break
                                     @case(3)
-                                    <span class="badge bg-success">Admin3</span>
+                                    <span class="badge bg-success">Giảng Viên</span>
                                     @break
                                     @case(4)
-                                    <span class="badge bg-danger">Admin4</span>
+                                    <span class="badge bg-danger">Cán Bộ Lớp</span>
                                     @break
                                     @case(5)
-                                    <span class="badge bg-warning">User</span>
+                                    <span class="badge bg-warning">Sinh Viên</span>
                                     @break
                                     @default
                                     <span class="badge bg-info">Không có quyền</span>
                                     @endswitch
                                 </option>
-                                <option value="1">Admin</option>
+                                <!-- <option value="1">Admin</option>
                                 <option value="2">Quản Lý</option>
                                 <option value="3">Giảng Viên</option>
                                 <option value="4">Cán Bộ Lớp</option>
-                                <option value="5">Sinh Viên</option>
+                                <option value="5">Sinh Viên</option> -->
                             </select>
+
                             <label for="floatingSelectGrid">Phân Quyền</label>
                         </div>
                     </div>
